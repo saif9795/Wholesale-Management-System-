@@ -1,0 +1,106 @@
+create table Company(
+	Company_ID varchar(16) not null,
+    Company_Name varchar(32) not null,
+  	Product_Name char(32),
+    Product_ID varchar(16),
+    Price_Per_Unit int,
+    PRIMARY key(Product_Name, Product_ID)
+);
+
+INSERT into company values('C01','Maggi','Maggi','001',48);
+INSERT into company values('C01','Maggi','Naga Maggi','002',90);
+INSERT into company values('C01','Maggi','Masala Maggi','003',70);
+INSERT into company values('C01','Maggi','Ready-Made Maggi','004',25);
+INSERT into company values('C02','Cocola','Noodles','005',60);
+INSERT into company values('C02','Cocola','Shemai','006',60);
+INSERT into company values('C02','Cocola','Lachcha','007',80);
+INSERT into company values('C03','Ifad','Aata','008',45);
+INSERT into company values('C04','Pran','Sugar','009',75);
+INSERT into company values('C04','Pran','Salt','010',50);
+INSERT into company values('C04','Pran','Mango Bar','011',10);
+INSERT into company values('C04','Pran','Lichi Drink','012',15);
+
+
+create table Stock(
+  	Product_Name char(32) not null,
+    Product_ID varchar(16),
+    Price_Per_Unit int not null,
+    Quantity int not null,
+    PRIMARY key(Product_ID)
+);
+
+INSERT into stock values('Maggi','001',48,50);
+INSERT into stock values('Naga Maggi','002',90,60);
+INSERT into stock values('Masala Maggi','003',70,20);
+INSERT into stock values('Ready-Made Maggi','004',25,40);
+INSERT into stock values('Noodles','005',60,70);
+INSERT into stock values('Shemai','006',60,40);
+INSERT into stock values('Lachcha','007',80,80);
+INSERT into stock values('Aata','008',45,50);
+INSERT into stock values('Sugar','009',75,90);
+INSERT into stock values('Salt','010',50,50);
+INSERT into stock values('Mango Bar','011',10,50);
+INSERT into stock values('Lichi Drink','012',15,100);
+
+create table Customer(
+  	Customer_Name char(32) not null,
+    Customer_ID varchar(16) not null,
+    Purchase_Date int(2) not null,
+    Purchase_Month char(20) not null,
+    Purchase_Year int(4)   not null, 
+    Road_No varchar(10) not null,
+    House_No varchar(10) not null,
+    City char(20) not null,
+    Area char(20)  not null
+	);
+
+INSERT into customer values('Md Shafiq','CUS001',10,'September',2021,'Rd_No#07','HNo#20','Dhaka', 'Mohammadpur');
+INSERT into customer values('Robert D’Cuza', 'CUS002',12,'September',2021,'Rd_No#18','HNo#328','Dhaka', 'Mohammadpur');
+INSERT into customer values('Pranto Borua', 'CUS003',24,'January',2021, 'Rd_No#27','HNo#75','Dhaka', 'Mirpur-1');
+INSERT into customer values('Jibon Kumar','CUS004',25,'March',2021, 'Rd_No#03','HNo#21','Dhaka', 'Mirpur-6');
+INSERT into customer values('Jahidul Hasan','CUS005',06,'July',2021, 'Rd_No#01','HNo#03','Dhaka', 'Badda');
+INSERT into customer values('Jabed Ahmed','CUS006',21,'February',2021, 'Rd_No#03','HNo#04','Dhaka', 'Banasree');
+INSERT into customer values('Sheuli Begom','CUS007',27,'June',2021, 'Rd_No#06','HNo#21','Dhaka', 'Rampura');
+INSERT into customer values('Rokeya Zaman','CUS008',15,'August',2021, 'Rd_No#10','HNo#08','Dhaka', 'Khilgaon');
+INSERT into customer values('Md Aslam Khan','CUS009',25,'April',2021, 'Rd_No#04','HNo#15','Dhaka', 'Uttora');
+INSERT into customer values('Rohomot Molla','CUS010',18,'May',2021, 'Rd_No#15','HNo#04','Dhaka', 'Basabo');
+
+
+CREATE TABLE order_list(
+	Customer_ID varchar(16) not null,
+    Product_ID varchar(16) not null,
+    Quantity int not null,
+    Quantity_Remain int not null
+);
+
+INSERT into order_list values ('CUS001','001',10,50);
+INSERT into order_list values ('CUS002','001',15,50);
+INSERT into order_list values ('CUS003','004',20,40);
+INSERT into order_list values ('CUS004','012',15,100);
+insert INTO order_list values('CUS001','012',20,100);
+insert INTO order_list values('CUS001','006',10,40);
+insert INTO order_list values('CUS001','007',10,80);
+insert INTO order_list values('CUS002','009',10,90);
+insert INTO order_list values('CUS003','010',10,50);
+insert INTO order_list values('CUS005','008',20,50);
+
+create table Payment_Status(
+	Customer_ID varchar(16) PRIMARY KEY,
+    Status char(10),
+    CONSTRAINT check_status check (Status in('Paid','Due'))
+
+);
+
+INSERT into payment_status values ('CUS001','Paid');
+INSERT into payment_status values ('CUS002','Paid');
+INSERT into payment_status values ('CUS003','Due');
+INSERT into payment_status values ('CUS004','Paid');
+INSERT into payment_status values ('CUS005','Paid');
+INSERT into payment_status values ('CUS006','Due');
+INSERT into payment_status values ('CUS007','Due');
+INSERT into payment_status values ('CUS008','Due');
+INSERT into payment_status values ('CUS009','Paid');
+INSERT into payment_status values ('CUS010','Paid');
+
+alter table order_list add CONSTRAINT chk_quantity check (Quantity<Quantity_Remain);
+alter table stock add CONSTRAINT chk_stock check (Quantity>5);
